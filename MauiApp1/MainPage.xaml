@@ -5,102 +5,104 @@
              xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
              xmlns:models="clr-namespace:MauiApp1.Model"
              x:DataType="viewmodel:MainViewModel">
-
-    <Grid  
-    RowDefinitions="Auto, 50, 350, *"
-    ColumnDefinitions="*"
-    Padding="10"
-    RowSpacing="10"
-    ColumnSpacing="10">
-
-
-
-        <CollectionView Grid.Row="0" Grid.ColumnSpan="2"
-                ItemsSource="{Binding Products}"
-                SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"
-                         Span="2" />
-            </CollectionView.ItemsLayout>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Product">
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Add"
-                                   BackgroundColor="Green"
-                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=AddCommand}"
-                                   CommandParameter="{Binding Id}" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-
-                        <Frame Margin="5"
-                       CornerRadius="10"
-                       HasShadow="True"
-                       BorderColor="LightGray"
-                       Padding="10">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}"
-                               FontAttributes="Bold"
-                               FontSize="16"
-                               HorizontalOptions="Center" />
-                                <Label Text="{Binding Price, StringFormat='₱{0:F2}'}"
-                               FontSize="14"
-                               TextColor="Green"
-                               HorizontalOptions="Center" />
-                            </VerticalStackLayout>
-                        </Frame>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+    <ScrollView>
+        <Grid  
+ RowDefinitions="Auto, 50, 350, *"
+ ColumnDefinitions="*"
+ Padding="10"
+ RowSpacing="10"
+ ColumnSpacing="10">
 
 
 
-        <Label Text="Cart" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Center" FontSize="24"/>
+            <CollectionView Grid.Row="0" Grid.ColumnSpan="2"
+             ItemsSource="{Binding Products}"
+             SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                      Span="2" />
+                </CollectionView.ItemsLayout>
 
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedProducts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Add"
+                                BackgroundColor="Green"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=AddCommand}"
+                                CommandParameter="{Binding Id}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Product">
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete" BackgroundColor="Red" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
-                                    CommandParameter="{Binding Id}" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <Grid Padding="0,5">
-                            <Frame>
+                            <Frame Margin="5"
+                    CornerRadius="10"
+                    HasShadow="True"
+                    BorderColor="LightGray"
+                    Padding="10">
                                 <VerticalStackLayout>
                                     <Label Text="{Binding Name}"
-                                           FontAttributes="Bold"
-                                           FontSize="16" />
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center" />
                                     <Label Text="{Binding Price, StringFormat='₱{0:F2}'}"
-                                           FontSize="14"
-                                           TextColor="Green"/>
+                            FontSize="14"
+                            TextColor="Green"
+                            HorizontalOptions="Center" />
                                 </VerticalStackLayout>
                             </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                        </Grid>
-                    </SwipeView>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
 
-        <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Spacing="10">
-            <Label Text="{Binding TotalPrice, StringFormat='Total: ₱{0:F2}'}"
-       FontSize="20"
-       FontAttributes="Bold"
-       TextColor="Black"
-       HorizontalOptions="End"
-       Margin="10"/>
+            <Label Text="Cart" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Center" FontSize="24"/>
 
-        </HorizontalStackLayout>
+            <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedProducts}">
 
-    </Grid>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete" BackgroundColor="Red" 
+                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
+                                 CommandParameter="{Binding Id}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid Padding="0,5">
+                                <Frame>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Name}"
+                                        FontAttributes="Bold"
+                                        FontSize="16" />
+                                        <Label Text="{Binding Price, StringFormat='₱{0:F2}'}"
+                                        FontSize="14"
+                                        TextColor="Green"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+
+                            </Grid>
+                        </SwipeView>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Spacing="10">
+                <Label Text="{Binding TotalPrice, StringFormat='Total: ₱{0:F2}'}"
+    FontSize="20"
+    FontAttributes="Bold"
+    TextColor="Black"
+    HorizontalOptions="End"
+    Margin="10"/>
+
+            </HorizontalStackLayout>
+
+        </Grid>
+    </ScrollView>
+   
 
 </ContentPage>
