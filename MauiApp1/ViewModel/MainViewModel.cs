@@ -9,7 +9,7 @@ namespace MauiApp1.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<Product> Products { get; }
         public ObservableCollection<Product> SelectedProducts { get; set; }
         private decimal totalPrice;
         public decimal TotalPrice
@@ -25,11 +25,11 @@ namespace MauiApp1.ViewModel
             }
         }
 
-        public MainViewModel()
+        public MainViewModel(ProductService productService)
         {
             Items = new ObservableCollection<string>();
-            Products = new ObservableCollection<Product>(ProductService.GetSampleProducts());
             SelectedProducts = new ObservableCollection<Product>();
+            Products = productService.Products;
 
         }
 
