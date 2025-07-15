@@ -7,7 +7,7 @@
              x:DataType="viewmodel:MainViewModel">
     <ScrollView>
         <Grid  
- RowDefinitions="Auto, 50, 350, *"
+ RowDefinitions="Auto, 50, Auto, *"
  ColumnDefinitions="*"
  Padding="10"
  RowSpacing="10"
