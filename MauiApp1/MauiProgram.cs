@@ -25,6 +25,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<AddProduct>();
         builder.Services.AddSingleton<AddProductViewModel>();
 
+		builder.Services.AddTransient<ConfirmOrderPage>();
+		builder.Services.AddTransient<ConfirmOrderViewModel>();
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

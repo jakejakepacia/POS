@@ -4,11 +4,20 @@ using MauiApp1.Model;
 using MyApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace MauiApp1.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
+        public MainViewModel(ProductService productService)
+        {
+            Items = new ObservableCollection<string>();
+            SelectedProducts = new ObservableCollection<Product>();
+            Products = productService.Products;
+            ButtonClickedCommand = new RelayCommand(OnButtonClicked);
+        }
+
         public ObservableCollection<Product> Products { get; }
         public ObservableCollection<Product> SelectedProducts { get; set; }
         private decimal totalPrice;
@@ -25,13 +34,6 @@ namespace MauiApp1.ViewModel
             }
         }
 
-        public MainViewModel(ProductService productService)
-        {
-            Items = new ObservableCollection<string>();
-            SelectedProducts = new ObservableCollection<Product>();
-            Products = productService.Products;
-
-        }
 
         [ObservableProperty]
         ObservableCollection<string> items;
@@ -66,6 +68,39 @@ namespace MauiApp1.ViewModel
                 CalculateTotal();
             }
         }
+
+        [RelayCommand]
+        async Task Tap()
+        {
+            await Shell.Current.GoToAsync(nameof(ConfirmOrderPage));
+        }
+
+        public ICommand ButtonClickedCommand { get; }
+
+        private async void OnButtonClicked()
+        {
+            var orders = ConvertToOrderItems();
+
+            await Shell.Current.GoToAsync(nameof(ConfirmOrderPage), new Dictionary<string, object>
+            {
+                { "Orders", orders }
+            });
+
+        }
+
+        public ObservableCollection<OrderItem> ConvertToOrderItems()
+        {
+            var orderItems = SelectedProducts
+                .Select(p => new OrderItem
+                {
+                    Product = p,
+                    Quantity = 1 // default quantity, change if needed
+                });
+
+            return new ObservableCollection<OrderItem>(orderItems);
+        }
+
+
 
         private void CalculateTotal()
         {

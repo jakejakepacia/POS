@@ -7,7 +7,7 @@
              x:DataType="viewmodel:MainViewModel">
     <ScrollView>
         <Grid  
- RowDefinitions="Auto, 50, Auto, *"
+ RowDefinitions="Auto, 50, Auto, *, 50"
  ColumnDefinitions="*"
  Padding="10"
  RowSpacing="10"
@@ -100,7 +100,11 @@
     Margin="10"/>
 
             </HorizontalStackLayout>
-
+            <Button Text="Order"
+                    Command="{Binding ButtonClickedCommand}"
+                    CommandParameter="{Binding SelectedProducts}"
+                Grid.Row="4" Grid.ColumnSpan="2"/>
+    
         </Grid>
     </ScrollView>
    
