@@ -7,7 +7,7 @@
              x:DataType="viewmodel:MainViewModel">
     <ScrollView>
         <Grid  
- RowDefinitions="Auto, 50, Auto, *, 50"
+ RowDefinitions="Auto, *, 50"
  ColumnDefinitions="*"
  Padding="10"
  RowSpacing="10"
@@ -58,53 +58,12 @@
 
 
 
-            <Label Text="Cart" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Center" FontSize="24"/>
 
-            <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedProducts}">
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Product">
-                        <SwipeView>
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Delete" BackgroundColor="Red" 
-                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
-                                 CommandParameter="{Binding Id}" />
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Grid Padding="0,5">
-                                <Frame>
-                                    <VerticalStackLayout>
-                                        <Label Text="{Binding Name}"
-                                        FontAttributes="Bold"
-                                        FontSize="16" />
-                                        <Label Text="{Binding Price, StringFormat='₱{0:F2}'}"
-                                        FontSize="14"
-                                        TextColor="Green"/>
-                                    </VerticalStackLayout>
-                                </Frame>
-
-                            </Grid>
-                        </SwipeView>
-
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Spacing="10">
-                <Label Text="{Binding TotalPrice, StringFormat='Total: ₱{0:F2}'}"
-    FontSize="20"
-    FontAttributes="Bold"
-    TextColor="Black"
-    HorizontalOptions="End"
-    Margin="10"/>
-
-            </HorizontalStackLayout>
-            <Button Text="Order"
+            <Button Text="Confirm Orders"
                     Command="{Binding ButtonClickedCommand}"
                     CommandParameter="{Binding SelectedProducts}"
-                Grid.Row="4" Grid.ColumnSpan="2"/>
-    
+                Grid.Row="2" Grid.ColumnSpan="2"/>
+
         </Grid>
     </ScrollView>
    
