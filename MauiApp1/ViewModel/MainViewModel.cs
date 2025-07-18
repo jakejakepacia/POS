@@ -91,14 +91,17 @@ namespace MauiApp1.ViewModel
         public ObservableCollection<OrderItem> ConvertToOrderItems()
         {
             var orderItems = SelectedProducts
-                .Select(p => new OrderItem
+                .GroupBy(p => p.Id) // group by product ID
+                .Select(g => new OrderItem
                 {
-                    Product = p,
-                    Quantity = 1 // default quantity, change if needed
+                    Product = g.First(),    // use the first product instance
+                    Quantity = g.Count(),  // quantity equals number of times product appears
+                    SubTotal = g.First().Price * g.Count()
                 });
 
             return new ObservableCollection<OrderItem>(orderItems);
         }
+
 
 
 

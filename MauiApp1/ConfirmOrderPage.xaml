@@ -8,9 +8,8 @@
             x:DataType="viewmodel:ConfirmOrderViewModel">
     <ScrollView>
         <Grid  
-            RowDefinitions="Auto, 50, Auto, *, 50"
+            RowDefinitions="*, 100"
             ColumnDefinitions="*"
-              Padding="10"
               RowSpacing="10"
             ColumnSpacing="10">
             <CollectionView Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Orders}">
@@ -20,11 +19,17 @@
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItem Text="Delete" BackgroundColor="Red"/>
+                                   <SwipeItem Text="+" />
+                                    <SwipeItem Text="-"/>
                                 </SwipeItems>
                             </SwipeView.RightItems>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Remove" BackgroundColor="Red"/>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
                             <Grid Padding="0,5">
-                                <Frame>
+                                <Frame Margin="10">
                                     <Grid ColumnDefinitions="*, 50">
                                         <VerticalStackLayout Grid.Column="0">
                                             <Label Text="{Binding Product.Name}"
@@ -34,9 +39,14 @@
                                                 FontSize="14"
                                                 TextColor="Green"/>
                                         </VerticalStackLayout>
-                                        <Label
-        Grid.Column="1"
-        Text="{Binding Quantity, StringFormat='Qty: {0}'}" />
+                                        <VerticalStackLayout   Grid.Column="1">
+                                            <Label
+                                                Text="{Binding Quantity, StringFormat='Qty: {0}'}" />
+                                            <Label Text="{Binding SubTotal , StringFormat='₱{0:F2}'}"
+                                                FontSize="14"
+                                                TextColor="Green"/>
+                                        </VerticalStackLayout>
+                                       
                                     </Grid>
                                 
 
@@ -50,6 +60,35 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <Border
+                 Grid.Row="1"
+                Grid.ColumnSpan="2"
+                  StrokeThickness="1"
+    Stroke="LightGray"
+    BackgroundColor="White"
+    StrokeShape="RoundRectangle 15"
+    Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                Offset="5,5"
+                Radius="10"
+                Opacity="0.5" />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="5">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Total"
+                   FontSize="20"
+                   TextColor="Green"/>
+                        <Label Grid.Column="1" 
+                   Text="{Binding TotalPrice, StringFormat='₱{0:F2}'}"
+                   FontSize="20"
+                   TextColor="Green"/>
+                    </Grid>
+
+                    <Button Text="Check out"/>
+                </VerticalStackLayout>
+            </Border>
+
         </Grid>
     </ScrollView>
 </ContentPage>
