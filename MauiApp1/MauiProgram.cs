@@ -1,4 +1,6 @@
-﻿using MauiApp1.ViewModel;
+﻿using MauiApp1.Interface;
+using MauiApp1.Services;
+using MauiApp1.ViewModel;
 using Microsoft.Extensions.Logging;
 using MyApp.Services;
 
@@ -25,8 +27,17 @@ public static class MauiProgram
         builder.Services.AddSingleton<AddProduct>();
         builder.Services.AddSingleton<AddProductViewModel>();
 
-		builder.Services.AddTransient<ConfirmOrderPage>();
+        builder.Services.AddSingleton<ReceiptPage>();
+        builder.Services.AddSingleton<ReceiptViewModel>();
+
+        builder.Services.AddTransient<ConfirmOrderPage>();
 		builder.Services.AddTransient<ConfirmOrderViewModel>();
+
+        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<LoginViewModel>();
+
+        builder.Services.AddSingleton<IDialogService, DialogService>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

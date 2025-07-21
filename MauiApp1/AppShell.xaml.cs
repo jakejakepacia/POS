@@ -7,6 +7,7 @@
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(ConfirmOrderPage), typeof(ConfirmOrderPage));
+            Routing.RegisterRoute(nameof(ReceiptPage), typeof(ReceiptPage));
         }
     }
 }

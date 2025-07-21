@@ -85,7 +85,7 @@
                    TextColor="Green"/>
                     </Grid>
 
-                    <Button Text="Check out"/>
+                    <Button Text="Check out" Command="{Binding ShowAlertCommand}"/>
                 </VerticalStackLayout>
             </Border>
 
