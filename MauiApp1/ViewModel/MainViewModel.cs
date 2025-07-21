@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Lang.Annotation;
 using MauiApp1.Model;
 using MyApp.Services;
 using System.Collections.ObjectModel;
@@ -12,31 +13,17 @@ namespace MauiApp1.ViewModel
     {
         public MainViewModel(ProductService productService)
         {
-            Items = new ObservableCollection<string>();
             SelectedProducts = new ObservableCollection<Product>();
             Products = productService.Products;
             ButtonClickedCommand = new RelayCommand(OnButtonClicked);
+            IsActive = true;
         }
 
         public ObservableCollection<Product> Products { get; }
         public ObservableCollection<Product> SelectedProducts { get; set; }
-        private decimal totalPrice;
-        public decimal TotalPrice
-        {
-            get => totalPrice;
-            set
-            {
-                if (totalPrice != value)
-                {
-                    totalPrice = value;
-                    OnPropertyChanged(nameof(TotalPrice));
-                }
-            }
-        }
-
 
         [ObservableProperty]
-        ObservableCollection<string> items;
+        public bool isActive;
 
 
         [RelayCommand]
@@ -50,7 +37,6 @@ namespace MauiApp1.ViewModel
             if (selectedProduct != null)
             {
                 SelectedProducts.Add(selectedProduct);
-                CalculateTotal();
             }
         }
 
@@ -65,7 +51,6 @@ namespace MauiApp1.ViewModel
             if (selectedProduct != null)
             {
                 SelectedProducts.Remove(selectedProduct);
-                CalculateTotal();
             }
         }
 
@@ -79,12 +64,15 @@ namespace MauiApp1.ViewModel
 
         private async void OnButtonClicked()
         {
+            IsActive = false;
             var orders = ConvertToOrderItems();
 
             await Shell.Current.GoToAsync(nameof(ConfirmOrderPage), new Dictionary<string, object>
             {
                 { "Orders", orders }
             });
+
+            IsActive = true;
 
         }
 
@@ -101,15 +89,6 @@ namespace MauiApp1.ViewModel
 
             return new ObservableCollection<OrderItem>(orderItems);
         }
-
-
-
-
-        private void CalculateTotal()
-        {
-            TotalPrice = SelectedProducts.Sum(p => p.Price);
-        }
-
 
     }
 }

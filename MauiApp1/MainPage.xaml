@@ -62,6 +62,7 @@
             <Button Text="Confirm Orders"
                     Command="{Binding ButtonClickedCommand}"
                     CommandParameter="{Binding SelectedProducts}"
+                    IsEnabled="{Binding IsActive}"
                 Grid.Row="2" Grid.ColumnSpan="2"/>
 
         </Grid>
