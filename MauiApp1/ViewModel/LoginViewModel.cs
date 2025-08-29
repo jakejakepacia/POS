@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Java.Lang.Annotation;
+using MauiApp1.Interface;
+using MauiApp1.Models.Api;
+using MauiApp1.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +16,50 @@ namespace MauiApp1.ViewModel
     public partial class LoginViewModel : ObservableObject
     {
 
+        [ObservableProperty]
+        string username;
+
+        [ObservableProperty]
+        string password;
+
+        private readonly IDialogService _dialogService;
+        private readonly ILoginApiService _apiService;
+        public LoginViewModel(ILoginApiService apiService, IDialogService dialogService)
+        {
+            _dialogService = dialogService;
+            _apiService = apiService;
+        }
+
         [RelayCommand]
         private async Task LoginAsync()
         {
-            // Replace MainPage with AppShell after login
-            Application.Current.MainPage = new AppShell();
+            if(string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            {
+                await _dialogService.ShowAlertAsync("Login Failed", "Please enter username and password", "Okay");
+            }
+            else
+            {
+                var request = new LoginRequest
+                {
+                    Username = Username,
+                    Password = Password
+                };
+
+                var result = await _apiService.LoginAsync(request);
+
+                if (!string.IsNullOrEmpty(result?.accessToken))
+                {
+                   await SecureStorage.SetAsync("auth_token", result.accessToken);
+
+                    // Navigate to AppShell after login
+                    Application.Current.MainPage = new AppShell();
+                }
+                else
+                {
+                    await _dialogService.ShowAlertAsync("Login Failed", "Username or password is incorrect!", "OK");
+                }
+            }
+
         }
     }
 }

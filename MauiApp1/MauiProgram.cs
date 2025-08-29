@@ -38,6 +38,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IDialogService, DialogService>();
 
+        builder.Services.AddSingleton<ILoginApiService, LoginApiService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -13,8 +13,11 @@ namespace MauiApp1.Services
 
         public async Task ShowAlertAsync(string title, string message, string cancel)
         {
-            if (_currentPage != null)
-                await _currentPage.DisplayAlert(title, message, cancel);
+            var currentPage = Application.Current.MainPage;
+            if (currentPage is Shell shell)
+                currentPage = shell.CurrentPage;
+
+            await currentPage.DisplayAlert(title, message, cancel);
         }
 
         public async Task<bool> ShowConfirmationAsync(string title, string message, string accept, string cancel)
