@@ -1,5 +1,6 @@
 ﻿using MauiApp1.Interface;
 using MauiApp1.Services;
+using MauiApp1.Session;
 using MauiApp1.ViewModel;
 using Microsoft.Extensions.Logging;
 using MyApp.Services;
@@ -39,6 +40,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDialogService, DialogService>();
 
         builder.Services.AddSingleton<ILoginApiService, LoginApiService>();
+
+		builder.Services.AddSingleton<UserSession>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -12,6 +12,8 @@ namespace MauiApp1
             BindingContext = vm; 
         }
 
+
+
     }
 
 }

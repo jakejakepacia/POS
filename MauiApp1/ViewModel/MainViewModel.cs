@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Java.Lang.Annotation;
 using MauiApp1.Model;
+using MauiApp1.Session;
 using MyApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,19 +12,43 @@ namespace MauiApp1.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-        public MainViewModel(ProductService productService)
+        private readonly ProductService _productService;
+        private readonly UserSession _userSession;
+
+        public MainViewModel(ProductService productService, UserSession userSession)
         {
+            _productService = productService;
+            _userSession = userSession;
+
             SelectedProducts = new ObservableCollection<Product>();
-            Products = productService.Products;
             ButtonClickedCommand = new RelayCommand(OnButtonClicked);
             IsActive = true;
+
+            if (_userSession.IsLoggedIn)
+            {
+                LoadProducts();
+            }
         }
 
-        public ObservableCollection<Product> Products { get; }
+        public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Product> SelectedProducts { get; set; }
 
         [ObservableProperty]
         public bool isActive;
+
+        public async Task LoadProducts()
+        {
+            if (!_userSession.UserId.HasValue) 
+                return;
+
+            var products = await _productService.GetProducts(_userSession.UserId.Value);
+
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(product);
+            }
+        }
 
 
         [RelayCommand]

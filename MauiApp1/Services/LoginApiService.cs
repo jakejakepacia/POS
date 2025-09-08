@@ -1,5 +1,6 @@
 ﻿using MauiApp1.Interface;
 using MauiApp1.Models.Api;
+using MauiApp1.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace MauiApp1.Services
         }
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
-            var url = "https://practiceapi-uchh.onrender.com/api/Users/login"; // Replace with your actual endpoint
+            var url = "https://practiceapi-uchh.onrender.com/api/Users/login";
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -31,7 +32,10 @@ namespace MauiApp1.Services
             }
 
             var responseJson = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<LoginResponse>(responseJson);
+            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseJson);
+
+
+            return loginResponse;
         }
     }
 }

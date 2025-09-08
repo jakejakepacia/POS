@@ -4,6 +4,7 @@ using Java.Lang.Annotation;
 using MauiApp1.Interface;
 using MauiApp1.Models.Api;
 using MauiApp1.Services;
+using MauiApp1.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,13 @@ namespace MauiApp1.ViewModel
 
         private readonly IDialogService _dialogService;
         private readonly ILoginApiService _apiService;
-        public LoginViewModel(ILoginApiService apiService, IDialogService dialogService)
+        private readonly UserSession _userSession;
+
+        public LoginViewModel(ILoginApiService apiService, IDialogService dialogService, UserSession userSession)
         {
             _dialogService = dialogService;
             _apiService = apiService;
+            _userSession = userSession;
         }
 
         [RelayCommand]
@@ -51,6 +55,7 @@ namespace MauiApp1.ViewModel
                 {
                    await SecureStorage.SetAsync("auth_token", result.accessToken);
 
+                    _userSession.SetUserId(result.id);
                     // Navigate to AppShell after login
                     Application.Current.MainPage = new AppShell();
                 }
