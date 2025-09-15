@@ -1,4 +1,5 @@
 ﻿using MauiApp1.Model;
+using MauiApp1.Models.Api;
 using MauiApp1.Session;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,13 +22,57 @@ namespace MyApp.Services
             
         }
 
-        public void AddProduct(Product product)
+        public async Task<Boolean> AddProduct(Product product)
         {
-            product.Id = _nextId++;
             Products.Add(product);
+
+            try
+            {
+                var url = $"https://jakeposapi.onrender.com/api/Product/AddProduct";
+                string token = await SecureStorage.GetAsync("auth_token");
+                var storeId = await SecureStorage.GetAsync("storeId");
+
+
+                if (!string.IsNullOrEmpty(storeId) && !string.IsNullOrEmpty(token))
+                {
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    if (int.TryParse(storeId, out int result))
+                    {
+                        var newProduct = new ProductRequest
+                        {
+                            Name = product.Name,
+                            Description = product.Description,
+                            Price = product.Price,
+                            StoreId = result,
+                            IsAddedByOwner = true,
+                            EmployeeId = 0
+                        };
+
+
+                        var json = JsonSerializer.Serialize(newProduct);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        var response = await _httpClient.PostAsync(url, content);
+
+                        return response.IsSuccessStatusCode;
+
+                    }
+                }
+
+                return false;   
+           
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
-        public async Task<List<Product>> GetProducts(int userId)
+        public async Task<ObservableCollection<Product>> GetProducts(int userId)
         {
            
             try
@@ -41,24 +86,25 @@ namespace MyApp.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new List<Product>(); // or handle/log the error
+                    return new ObservableCollection<Product>(); // or handle/log the error
                 }
 
                 var responseJson = await response.Content.ReadAsStringAsync();
 
 
-                var products = JsonSerializer.Deserialize<List<Product>>(responseJson, new JsonSerializerOptions
+                var products = JsonSerializer.Deserialize<ObservableCollection<Product>>(responseJson, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
+                Products = products ?? new ObservableCollection<Product>(); ;
 
-                return products ?? new List<Product>();
+                return Products;
             }
             catch (JsonException e)
             {
                 Console.WriteLine(e.Message);
                 // Log exception or return fallback
-                return new List<Product>();
+                return new ObservableCollection<Product>();
             }
         }
 

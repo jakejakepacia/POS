@@ -30,7 +30,9 @@ namespace MauiApp1.ViewModel
             }
         }
 
-        public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
+        [ObservableProperty]
+        public ObservableCollection<Product> products;
+
         public ObservableCollection<Product> SelectedProducts { get; set; }
 
         [ObservableProperty]
@@ -41,13 +43,8 @@ namespace MauiApp1.ViewModel
             if (!_userSession.UserId.HasValue) 
                 return;
 
-            var products = await _productService.GetProducts(_userSession.UserId.Value);
+         Products = await _productService.GetProducts(_userSession.UserId.Value);
 
-            Products.Clear();
-            foreach (var product in products)
-            {
-                Products.Add(product);
-            }
         }
 
 
