@@ -16,11 +16,11 @@ namespace MauiApp1.Services
         public LoginApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://practiceapi-uchh.onrender.com/");
+            _httpClient.BaseAddress = new Uri("https://jakeposapi.onrender.com");
         }
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
-            var url = "https://practiceapi-uchh.onrender.com/api/Users/login";
+            var url = "https://jakeposapi.onrender.com/api/StoreAccount/login";
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
