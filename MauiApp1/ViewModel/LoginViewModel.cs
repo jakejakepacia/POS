@@ -54,8 +54,9 @@ namespace MauiApp1.ViewModel
                 if (!string.IsNullOrEmpty(result?.accessToken))
                 {
                    await SecureStorage.SetAsync("auth_token", result.accessToken);
+                   await SecureStorage.SetAsync("storeId", result.id.ToString());
 
-                    _userSession.SetUserId(result.id);
+                    _userSession.SetStoreId(result.id);
                     // Navigate to AppShell after login
                     Application.Current.MainPage = new AppShell();
                 }

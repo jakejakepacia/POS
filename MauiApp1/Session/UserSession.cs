@@ -10,7 +10,7 @@ namespace MauiApp1.Session
     {
         public int? UserId { get; private set; }
 
-        public void SetUserId(int userId)
+        public void SetStoreId(int userId)
         {
             UserId = userId;
         }
