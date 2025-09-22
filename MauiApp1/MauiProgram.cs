@@ -40,6 +40,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDialogService, DialogService>();
 
         builder.Services.AddSingleton<ILoginApiService, LoginApiService>();
+        builder.Services.AddSingleton<IOrderService, OrderService>();
 
 		builder.Services.AddSingleton<UserSession>();
 

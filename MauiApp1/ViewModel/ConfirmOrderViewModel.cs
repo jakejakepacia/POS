@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Interface;
 using MauiApp1.Model;
+using MauiApp1.Models.Api;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -44,12 +45,14 @@ namespace MauiApp1.ViewModel
         }
 
         private readonly IDialogService _dialogService;
+        private readonly IOrderService _orderService;
 
         public ICommand ShowAlertCommand { get; }
 
-        public ConfirmOrderViewModel(IDialogService dialogService)
+        public ConfirmOrderViewModel(IDialogService dialogService, IOrderService orderService)
         {
             _dialogService = dialogService;
+            _orderService = orderService;
             ShowAlertCommand = new Command(async () => await ShowAlertAsync());
         }
 
@@ -59,7 +62,23 @@ namespace MauiApp1.ViewModel
 
             if (isConfirmed)
             {
-                await Shell.Current.GoToAsync(nameof(ReceiptPage));
+                var productIds = Orders.Where(item => item.Product != null)
+                    .Select(item => item.Product.Id)
+                    .ToList();
+                var totalAmont = Orders.Sum(item => item.SubTotal);
+
+                var newOrder = new OrderRequest {
+                    ProductIds = productIds,
+                    TotalAmount = totalAmont,
+                };
+
+                var newOrderId = await _orderService.CheckOutOrder(newOrder);
+
+                if (newOrderId > 0){
+                    await _dialogService.ShowAlertAsync($"Order #{newOrderId} confirmed successfully.", "Order Confirmed", "Confirm");
+
+                    await Shell.Current.GoToAsync(nameof(ReceiptPage));
+                }
 
             }
         }
