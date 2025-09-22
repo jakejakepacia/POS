@@ -8,6 +8,7 @@ using MauiApp1.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -22,6 +23,9 @@ namespace MauiApp1.ViewModel
 
         [ObservableProperty]
         string password;
+
+        [ObservableProperty]
+        bool isLoading;
 
         private readonly IDialogService _dialogService;
         private readonly ILoginApiService _apiService;
@@ -43,6 +47,7 @@ namespace MauiApp1.ViewModel
             }
             else
             {
+                IsLoading = true;
                 var request = new LoginRequest
                 {
                     Username = Username,
@@ -53,7 +58,8 @@ namespace MauiApp1.ViewModel
 
                 if (!string.IsNullOrEmpty(result?.accessToken))
                 {
-                   await SecureStorage.SetAsync("auth_token", result.accessToken);
+                    IsLoading = false;
+                    await SecureStorage.SetAsync("auth_token", result.accessToken);
                    await SecureStorage.SetAsync("storeId", result.id.ToString());
 
                     _userSession.SetStoreId(result.id);
@@ -63,6 +69,7 @@ namespace MauiApp1.ViewModel
                 else
                 {
                     await _dialogService.ShowAlertAsync("Login Failed", "Username or password is incorrect!", "OK");
+                    IsLoading = false;
                 }
             }
 

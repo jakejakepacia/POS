@@ -38,13 +38,17 @@ namespace MauiApp1.ViewModel
         [ObservableProperty]
         public bool isActive;
 
+        [ObservableProperty]
+        public bool isLoading;
+
         public async Task LoadProducts()
         {
             if (!_userSession.UserId.HasValue) 
                 return;
 
-         Products = await _productService.GetProducts(_userSession.UserId.Value);
-
+            IsLoading = true;
+            Products = await _productService.GetProducts(_userSession.UserId.Value);
+            IsLoading = false;
         }
 
 

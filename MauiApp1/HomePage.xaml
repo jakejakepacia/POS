@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.HomePage"
+             Title="Home"
+              BackgroundColor="#F2F2F2">
+    <ScrollView>
+        <Grid
+            RowDefinitions="150, 50, *"
+            ColumnDefinitions="*, Auto"
+            Margin="25"
+            RowSpacing="15">
+            <Border StrokeShape="RoundRectangle 10"
+             BackgroundColor="White"
+             Padding="10" 
+                     Grid.Row="0"
+                    Grid.ColumnSpan="2">
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Label Text="Today Sales:"/>
+                    <Label Text="500PHP" FontSize="30" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="Orders" Grid.Row="1" Grid.Column="0"/>
+            <Label Text="Shor By" Grid.Row="1" Grid.Column="1"/>
+            <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+                ItemsSource="{Binding Products}"
+                SelectionMode="None">
+                />
+            </CollectionView>
+
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

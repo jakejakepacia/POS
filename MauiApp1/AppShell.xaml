@@ -7,14 +7,30 @@
     Shell.FlyoutBehavior="Flyout"
     Title="MauiApp1">
 
-    <ShellContent
-        Title="Take Order"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
 
-    <ShellContent
-     Title="Add Prodcut"
-     ContentTemplate="{DataTemplate local:AddProduct}"
-     Route="AddProduct" />
+    <MenuItem
+      Text="Take Order"
+        Clicked="OnTakeOrderClicked"
+      />
+
+
+    <MenuItem
+      Text="Add Prodcut" />
+    
+    <MenuItem Text="Logout"
+              Clicked="OnLogoutClicked"
+              IconImageSource="logout.png"
+              IsDestructive="True" />
+
+    
+
+    <TabBar>
+        <ShellContent
+             Title="Home"
+            Icon="homeicon.png"
+             ContentTemplate="{DataTemplate local:HomePage}"
+             Route="HomePage" />
+
+    </TabBar>
 
 </Shell>

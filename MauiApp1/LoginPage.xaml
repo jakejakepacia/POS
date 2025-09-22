@@ -6,13 +6,42 @@
                xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
             xmlns:models="clr-namespace:MauiApp1.Model"
                  x:DataType="viewmodel:LoginViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Entry Placeholder="Username" Text="{Binding Username}"/>
-        <Entry Placeholder="Password" Text="{Binding Password}"/>
+    <VerticalStackLayout Margin="20" Spacing="10">
+        <Image Source="posicon.png" HeightRequest="100" WidthRequest="100"/>
+        <Border Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+        BackgroundColor="White"
+        Padding="10" Margin="5">
+            <Entry Placeholder="Username" Text="{Binding Username}"
+             TextColor="DarkBlue"
+                PlaceholderColor="Gray"
+                FontSize="16"
+                FontAttributes="Bold"
+                HorizontalOptions="Fill"
+                HeightRequest="50"
+                Keyboard="Default"/>
+        </Border>
+        <Border Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+                BackgroundColor="White"
+                Padding="10" Margin="5">
+            <Entry Placeholder="Password" Text="{Binding Password}"
+             TextColor="DarkBlue"
+                    PlaceholderColor="Gray"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    HeightRequest="50"
+                    Keyboard="Default"
+                   IsPassword="True"/>
+        </Border>
+        
         <Button Text="Login" Command="{Binding LoginCommand}"/>
+
+        <ActivityIndicator
+        x:Name="LoadingIndicator"
+        IsRunning="{Binding IsLoading}"
+        IsVisible="{Binding IsLoading}"
+        Color="Blue"
+        WidthRequest="50"
+        HeightRequest="50" />
     </VerticalStackLayout>
 </ContentPage>

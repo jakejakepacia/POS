@@ -12,7 +12,6 @@ namespace MyApp.Services
     public class ProductService
     {
         private readonly HttpClient _httpClient;
-        private int _nextId = 1;
         public ObservableCollection<Product> Products { get; private set; } = new();
 
         public ProductService()

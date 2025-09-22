@@ -2,11 +2,11 @@
 
 namespace MauiApp1
 {
-    public partial class MainPage : ContentPage
+    public partial class MenuPage : ContentPage
     {
         int count = 0;
 
-        public MainPage(MainViewModel vm)
+        public MenuPage(MainViewModel vm)
         {
             InitializeComponent();
             BindingContext = vm; 
