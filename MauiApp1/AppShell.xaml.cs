@@ -29,5 +29,11 @@ namespace MauiApp1
             await Shell.Current.GoToAsync(nameof(MenuPage));
             Shell.Current.FlyoutIsPresented = false;
         }
+
+        private async void OnAddProductClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync(nameof(AddProduct));
+            Shell.Current.FlyoutIsPresented = false;
+        }
     }
 }

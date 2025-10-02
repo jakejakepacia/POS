@@ -1,4 +1,5 @@
-﻿using MauiApp1.Model;
+﻿using MauiApp1.Helpers;
+using MauiApp1.Model;
 using MauiApp1.Models.Api;
 using MauiApp1.Session;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace MyApp.Services
         public ProductService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://practiceapi-uchh.onrender.com/");
+            _httpClient.BaseAddress = new Uri(ApiConstants.BaseUrl);
             
         }
 
@@ -27,7 +28,7 @@ namespace MyApp.Services
 
             try
             {
-                var url = $"https://jakeposapi.onrender.com/api/Product/AddProduct";
+                var url = $"{ApiConstants.BaseUrl}/api/Product/AddProduct";
                 string token = await SecureStorage.GetAsync("auth_token");
                 var storeId = await SecureStorage.GetAsync("storeId");
 
@@ -76,7 +77,7 @@ namespace MyApp.Services
            
             try
             {
-                var url = $"https://jakeposapi.onrender.com/api/Product/{userId}";
+                var url = $"{ApiConstants.BaseUrl}/api/Product/{userId}";
                 string token = await SecureStorage.GetAsync("auth_token");
                 _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token);

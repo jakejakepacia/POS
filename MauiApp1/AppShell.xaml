@@ -15,7 +15,8 @@
 
 
     <MenuItem
-      Text="Add Prodcut" />
+      Text="Add Prodcut"
+        Clicked="OnAddProductClicked"/>
     
     <MenuItem Text="Logout"
               Clicked="OnLogoutClicked"
