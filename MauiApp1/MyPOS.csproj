@@ -60,6 +60,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	</ItemGroup>
 
@@ -70,25 +74,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AddProduct.xaml">
+	  <MauiXaml Update="Views\AddProduct.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ConfirmOrderPage.xaml">
+	  <MauiXaml Update="Views\ConfirmOrderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="HomePage.xaml">
+	  <MauiXaml Update="Views\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="LoginPage.xaml">
+	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ReceiptPage.xaml">
+	  <MauiXaml Update="Views\ReceiptPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\Splash\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AndroidResource Include="Platforms\Android\Resources\**" />
 	</ItemGroup>
 
 	<ItemGroup>

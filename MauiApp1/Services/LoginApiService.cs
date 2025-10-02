@@ -1,4 +1,5 @@
-﻿using MauiApp1.Interface;
+﻿using MauiApp1.Helpers;
+using MauiApp1.Interface;
 using MauiApp1.Models.Api;
 using MauiApp1.Session;
 using System;
@@ -16,11 +17,11 @@ namespace MauiApp1.Services
         public LoginApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://jakeposapi.onrender.com");
+            _httpClient.BaseAddress = new Uri(ApiConstants.BaseUrl);
         }
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
-            var url = "https://jakeposapi.onrender.com/api/StoreAccount/login";
+            var url = $"{ApiConstants.BaseUrl}/api/StoreAccount/login";
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
