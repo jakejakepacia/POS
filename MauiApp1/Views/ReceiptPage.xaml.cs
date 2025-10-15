@@ -9,4 +9,11 @@ public partial class ReceiptPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+        Application.Current.MainPage = new AppShell();
+        return true;
+    }
+
 }

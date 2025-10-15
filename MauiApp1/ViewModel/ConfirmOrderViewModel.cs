@@ -76,8 +76,8 @@ namespace MauiApp1.ViewModel
 
                 if (newOrderId > 0){
                     await _dialogService.ShowAlertAsync($"Order #{newOrderId} confirmed successfully.", "Order Confirmed", "Confirm");
-
-                    await Shell.Current.GoToAsync(nameof(ReceiptPage));
+                
+                    await Shell.Current.GoToAsync("//HomePage/ReceiptPage");
                 }
 
             }

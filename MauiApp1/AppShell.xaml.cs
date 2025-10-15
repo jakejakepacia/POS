@@ -1,5 +1,6 @@
 ﻿using MauiApp1.Session;
 using MauiApp1.ViewModel;
+using MauiApp1.Views;
 
 namespace MauiApp1
 {
@@ -13,6 +14,8 @@ namespace MauiApp1
             Routing.RegisterRoute(nameof(ReceiptPage), typeof(ReceiptPage));
             Routing.RegisterRoute(nameof(MenuPage), typeof(MenuPage));
             Routing.RegisterRoute(nameof(AddProduct), typeof(AddProduct));
+            Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(OrderDetailsPage), typeof(OrderDetailsPage));
         }
 
         private void OnLogoutClicked(object sender, EventArgs e)

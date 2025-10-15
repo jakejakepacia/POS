@@ -9,7 +9,7 @@
              Title="Home"
               BackgroundColor="#F2F2F2">
     <ScrollView>
-        <Grid
+        <Grid  x:Name="RootGrid"
             RowDefinitions="150, 50, *"
             ColumnDefinitions="*, Auto"
             Margin="25"
@@ -21,24 +21,32 @@
                     Grid.ColumnSpan="2">
                 <VerticalStackLayout VerticalOptions="Center">
                     <Label Text="Today Sales:"/>
-                    <Label Text="500PHP" FontSize="30" FontAttributes="Bold"/>
+                    <Label Text="{Binding SalesToday, StringFormat='{0}PHP'}" FontSize="30" FontAttributes="Bold"/>
                 </VerticalStackLayout>
             </Border>
             <Label Text="Orders" Grid.Row="1" Grid.Column="0"/>
             <Label Text="Shor By" Grid.Row="1" Grid.Column="1"/>
             <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                ItemsSource="{Binding StoreOrders}"
-                SelectionMode="None">
+                             x:Name="MyCollectionView"
+                            ItemsSource="{Binding StoreOrders}"
+                            ItemsUpdatingScrollMode="KeepScrollOffset"
+                            ItemSizingStrategy="MeasureFirstItem">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="apiModels:GetOrderResponse">
+                     
                         <Border StrokeShape="RoundRectangle 10"
                                 BackgroundColor="White"
                                 Padding="10" >
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                  Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=OrderTapCommand}"
+                                 CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="*,Auto"
-                                  RowDefinitions="20, 20">
+                                  RowDefinitions="20, 20" >
                                 <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Id, StringFormat='ORDER ID: {0}'}"/>
                                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding OrderDateTime, StringFormat='{0:t}'}"/>
                                 <Label Grid.Column="1" Text="{Binding TotalAmount}"/>
@@ -48,7 +56,13 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-
+            <ActivityIndicator
+                  x:Name="LoadingIndicator"
+                  IsRunning="{Binding IsLoading}"
+                  IsVisible="{Binding IsLoading}"
+                  Color="Blue"
+                  WidthRequest="50"
+                  HeightRequest="50" />
         </Grid>
     </ScrollView>
 </ContentPage>
