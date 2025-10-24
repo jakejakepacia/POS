@@ -1,68 +1,109 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.HomePage"
-             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
-             xmlns:models="clr-namespace:MauiApp1.Model"
-             xmlns:apiModels="clr-namespace:MauiApp1.Models.Api"
-             x:DataType="viewmodel:HomePageViewModel"
-             Title="Home"
-              BackgroundColor="#F2F2F2">
-    <ScrollView>
-        <Grid  x:Name="RootGrid"
-            RowDefinitions="150, 50, *"
-            ColumnDefinitions="*, Auto"
-            Margin="25"
-            RowSpacing="15">
-            <Border StrokeShape="RoundRectangle 10"
-             BackgroundColor="White"
-             Padding="10" 
-                     Grid.Row="0"
-                    Grid.ColumnSpan="2">
-                <VerticalStackLayout VerticalOptions="Center">
-                    <Label Text="Today Sales:"/>
-                    <Label Text="{Binding SalesToday, StringFormat='{0}PHP'}" FontSize="30" FontAttributes="Bold"/>
-                </VerticalStackLayout>
-            </Border>
-            <Label Text="Orders" Grid.Row="1" Grid.Column="0"/>
-            <Label Text="Shor By" Grid.Row="1" Grid.Column="1"/>
-            <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                             x:Name="MyCollectionView"
-                            ItemsSource="{Binding StoreOrders}"
-                            ItemsUpdatingScrollMode="KeepScrollOffset"
-                            ItemSizingStrategy="MeasureFirstItem">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="apiModels:GetOrderResponse">
-                     
-                        <Border StrokeShape="RoundRectangle 10"
-                                BackgroundColor="White"
-                                Padding="10" >
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=OrderTapCommand}"
-                                 CommandParameter="{Binding .}" />
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="*,Auto"
-                                  RowDefinitions="20, 20" >
-                                <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Id, StringFormat='ORDER ID: {0}'}"/>
-                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding OrderDateTime, StringFormat='{0:t}'}"/>
-                                <Label Grid.Column="1" Text="{Binding TotalAmount}"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MauiApp1.HomePage"
+    xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+    xmlns:models="clr-namespace:MauiApp1.Model"
+    xmlns:apiModels="clr-namespace:MauiApp1.Models.Api"
+    x:DataType="viewmodel:HomePageViewModel"
+    Title="Home"
+    BackgroundColor="#F2F2F2">
 
-            <ActivityIndicator
-                  x:Name="LoadingIndicator"
-                  IsRunning="{Binding IsLoading}"
-                  IsVisible="{Binding IsLoading}"
-                  Color="Blue"
-                  WidthRequest="50"
-                  HeightRequest="50" />
-        </Grid>
-    </ScrollView>
+    <!-- Root grid with overlapping layers -->
+    <Grid>
+        <!-- Scrollable content -->
+        <ScrollView  Scrolled="OnScrollViewScrolled">
+            <Grid x:Name="RootGrid"
+                  RowDefinitions="150, 50, *"
+                  ColumnDefinitions="*, Auto"
+                  Margin="25"
+                  RowSpacing="15">
+
+                <Border StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        Padding="10"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2">
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="Today Sales:" />
+                        <Label Text="{Binding SalesToday, StringFormat='{0}PHP'}" 
+                               FontSize="30" 
+                               FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Orders" Grid.Row="1" Grid.Column="0" />
+                <Label Text="Sort By" Grid.Row="1" Grid.Column="1" />
+
+                <CollectionView 
+                    Grid.Row="2" Grid.ColumnSpan="2"
+                    x:Name="MyCollectionView"
+                    ItemsSource="{Binding StoreOrders}"
+                    ItemsUpdatingScrollMode="KeepScrollOffset"
+                    ItemSizingStrategy="MeasureFirstItem">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="apiModels:GetOrderResponse">
+                            <Border StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="White"
+                                    Padding="10">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=OrderTapCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      RowDefinitions="20, 20">
+                                    <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Id, StringFormat='ORDER ID: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding OrderDateTime, StringFormat='{0:t}'}" />
+                                    <Label Grid.Column="1" Text="{Binding TotalAmount}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <ActivityIndicator
+                    x:Name="LoadingIndicator"
+                    IsRunning="{Binding IsLoading}"
+                    IsVisible="{Binding IsLoading}"
+                    Color="Blue"
+                    WidthRequest="50"
+                    HeightRequest="50" />
+            </Grid>
+        </ScrollView>
+
+        <!-- Fixed button at bottom-right -->
+        <Button 
+            Text="{Binding ButtonText}"
+            FontSize="28"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            BackgroundColor="#007bff"
+            TextColor="White"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            Margin="25"
+            Shadow="10"
+            Command="{Binding TakeOrderTapCommand}">
+
+            <Button.Triggers>
+                <DataTrigger TargetType="Button"
+                     Binding="{Binding IsScrolledDown}"
+                     Value="True">
+                    <Setter Property="WidthRequest" Value="140" />
+                    <Setter Property="HeightRequest" Value="50" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="CornerRadius" Value="8" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+    </Grid>
 </ContentPage>

@@ -4,9 +4,17 @@ namespace MauiApp1;
 
 public partial class HomePage : ContentPage
 {
-	public HomePage(HomePageViewModel vm)
+    private readonly HomePageViewModel _viewModel;
+
+    public HomePage(HomePageViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = vm;
-	}
+        BindingContext = _viewModel = vm;
+    }
+
+    private void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
+    {
+        // Just inform the ViewModel when scrolled
+        _viewModel.IsScrolledDown = e.ScrollY > 50;
+    }
 }

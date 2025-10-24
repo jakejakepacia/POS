@@ -27,6 +27,11 @@ namespace MauiApp1.ViewModel
         [ObservableProperty]
         bool isLoading;
 
+        [ObservableProperty]
+        bool isScrolledDown;
+
+        [ObservableProperty]
+        string buttonText = "+";
 
         [RelayCommand]
         async Task OrderTap(GetOrderResponse order)
@@ -35,6 +40,17 @@ namespace MauiApp1.ViewModel
             {
                 { "Orders", order }
             });
+        }
+
+        [RelayCommand]
+        async Task TakeOrderTap()
+        {
+            await Shell.Current.GoToAsync(nameof(MenuPage));
+        }
+
+        partial void OnIsScrolledDownChanged(bool value)
+        {
+            ButtonText = value ? "Take Order" : "+";
         }
 
         private readonly IOrderService _orderService;

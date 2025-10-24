@@ -8,11 +8,6 @@
     Title="MauiApp1">
 
 
-    <MenuItem
-      Text="Take Order"
-        Clicked="OnTakeOrderClicked"
-      />
-
 
     <MenuItem
       Text="Add Prodcut"
