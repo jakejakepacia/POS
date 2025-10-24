@@ -5,6 +5,7 @@ using MauiApp1.Model;
 using MauiApp1.Models.Api;
 using MauiApp1.Services;
 using MauiApp1.Views;
+using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +31,10 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         async Task OrderTap(GetOrderResponse order)
         {
-            await Shell.Current.GoToAsync(nameof(OrderDetailsPage));
+            await Shell.Current.GoToAsync(nameof(OrderDetailsPage), new Dictionary<string, object>
+            {
+                { "Orders", order }
+            });
         }
 
         private readonly IOrderService _orderService;

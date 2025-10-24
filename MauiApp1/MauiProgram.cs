@@ -2,6 +2,7 @@
 using MauiApp1.Services;
 using MauiApp1.Session;
 using MauiApp1.ViewModel;
+using MauiApp1.Views;
 using Microsoft.Extensions.Logging;
 using MyApp.Services;
 
@@ -39,6 +40,10 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<HomePage>();
         builder.Services.AddSingleton<HomePageViewModel>();
+
+        builder.Services.AddSingleton<OrderDetailsPage>();
+        builder.Services.AddSingleton<OrderDetailsViewModel>();
+
 
         builder.Services.AddSingleton<IDialogService, DialogService>();
 

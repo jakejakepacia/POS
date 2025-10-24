@@ -2,11 +2,39 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Views.OrderDetailsPage"
+              xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+              xmlns:models="clr-namespace:MauiApp1.Model"
+              xmlns:apiModels="clr-namespace:MauiApp1.Models.Api"
+              x:DataType="viewmodel:OrderDetailsViewModel"
              Title="OrderDetailsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="50, Auto, 50" 
+          ColumnDefinitions="*"
+          Margin="20" RowSpacing="10">
+        <Label Grid.Row="0" Text="Orders:" FontAttributes="Bold"/>
+        <CollectionView Grid.Row="1" Grid.ColumnSpan="2"
+                 x:Name="MyCollectionView"
+                ItemsSource="{Binding Products}"
+                ItemsUpdatingScrollMode="KeepScrollOffset"
+                ItemSizingStrategy="MeasureFirstItem">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Product">
+
+                    <Border StrokeShape="RoundRectangle 10"
+                    BackgroundColor="White"
+                    Padding="10" >
+            
+                        <Grid ColumnDefinitions="*,Auto"
+                      RowDefinitions="20, 20" >
+                            <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Name}"/>
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Price, StringFormat='Unit Price: {0}'}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Grid.Row="2" FontAttributes="Bold" Text="{Binding TotalAmount, StringFormat='TOTAL AMOUNT: {0}PHP'}"/>
+    </Grid>
 </ContentPage>
