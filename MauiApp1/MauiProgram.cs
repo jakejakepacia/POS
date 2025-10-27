@@ -50,7 +50,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<ILoginApiService, LoginApiService>();
         builder.Services.AddSingleton<IOrderService, OrderService>();
 
-		builder.Services.AddSingleton<UserSession>();
+
+        builder.Services.AddSingleton<SalesPage>();
+        builder.Services.AddSingleton<SalesPageViewModel>();
+
+
+        builder.Services.AddSingleton<UserSession>();
 
 #if DEBUG
         builder.Logging.AddDebug();

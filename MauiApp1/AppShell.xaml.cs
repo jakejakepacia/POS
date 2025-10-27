@@ -16,6 +16,7 @@ namespace MauiApp1
             Routing.RegisterRoute(nameof(AddProduct), typeof(AddProduct));
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(OrderDetailsPage), typeof(OrderDetailsPage));
+            Routing.RegisterRoute(nameof(SalesPage), typeof(SalesPage));
         }
 
         private void OnLogoutClicked(object sender, EventArgs e)

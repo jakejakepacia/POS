@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Views.SalesPage"
+             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+             xmlns:models="clr-namespace:MauiApp1.Model"
+             Title="SalesPage">
+    <Grid>
+        <ScrollView>
+            <Grid RowDefinitions="50,400, *" Margin="10" RowSpacing="20" >
+                <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+                    <Button Grid.Column="0" 
+                            Text="Daily" 
+                            BackgroundColor="{Binding Button1Color}"
+                            Command="{Binding SelectButtonCommand}"
+                            CommandParameter="{Binding Button1}" />
+                    <Button Grid.Column="1"  
+                            Text="Weekly" 
+                            BackgroundColor="{Binding Button2Color}"
+                            Command="{Binding SelectButtonCommand}"
+                            CommandParameter="{Binding Button2}"/>
+                    <Button Grid.Column="2" 
+                            Text="Monthly" 
+                            BackgroundColor="{Binding Button3Color}"
+                            Command="{Binding SelectButtonCommand}"
+                            CommandParameter="{Binding Button3}"/>
+                </Grid>
+                <VerticalStackLayout Grid.Row="1" Spacing="20">
+                    <Label Text="{Binding TotalSales, StringFormat='{0}PHP'}" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="35"/>
+                    <Grid ColumnDefinitions="*, *, *, *" RowDefinitions="300, 50" ColumnSpacing="10">
+                        <StackLayout Grid.Column="0" Background="Gray">
+                            
+                        </StackLayout>
+                     
+                        <StackLayout Grid.Column="1" BackgroundColor="Gray">
+
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="2" Background="Gray">
+
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="3" Background="Gray">
+
+                        </StackLayout>
+                        <Label Text="Oct 21" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="Oct 22" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="Oct 23" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="Today" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </VerticalStackLayout>
+                <CollectionView Grid.Row="2">
+                    
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>
