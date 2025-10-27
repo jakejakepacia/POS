@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1.Services
 {
@@ -92,5 +93,41 @@ namespace MauiApp1.Services
 
         }
 
+        public async Task<ObservableCollection<GetOrderResponse>> GetStoreOrders(DateTime dateTime)
+        {
+            string token = await SecureStorage.GetAsync("auth_token");
+            var storeId = await SecureStorage.GetAsync("storeId");
+
+            if (string.IsNullOrEmpty(storeId) || string.IsNullOrEmpty(token))
+            {
+                return new ObservableCollection<GetOrderResponse>();
+            }
+
+            string dateString = dateTime.ToString("yyyy-MM-ddTHH:mm:ss");
+
+            var url = $"{ApiConstants.BaseUrl}/api/Order/{storeId}/{dateString}";
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ObservableCollection<GetOrderResponse>(); // or handle/log the error
+            }
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+
+            var storeOrders = JsonSerializer.Deserialize<ObservableCollection<GetOrderResponse>>(responseJson, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            StoreOrders = storeOrders ?? new ObservableCollection<GetOrderResponse>();
+
+            return StoreOrders;
+
+
+            }
+        }
     }
-}

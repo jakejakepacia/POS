@@ -12,6 +12,7 @@ namespace MauiApp1.Interface
     {
         Task<int> CheckOutOrder(OrderRequest orderRequest);
         Task<ObservableCollection<GetOrderResponse>> GetStoreOrders();
+        Task<ObservableCollection<GetOrderResponse>> GetStoreOrders(DateTime dateTime);
 
         event Action NewOrderAdded;
     }

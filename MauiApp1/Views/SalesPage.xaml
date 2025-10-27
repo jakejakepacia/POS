@@ -4,6 +4,7 @@
              x:Class="MauiApp1.Views.SalesPage"
              xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
              xmlns:models="clr-namespace:MauiApp1.Model"
+             xmlns:apiModels="clr-namespace:MauiApp1.Models.Api"
              Title="SalesPage">
     <Grid>
         <ScrollView>
@@ -28,30 +29,116 @@
                 <VerticalStackLayout Grid.Row="1" Spacing="20">
                     <Label Text="{Binding TotalSales, StringFormat='{0}PHP'}" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="35"/>
                     <Grid ColumnDefinitions="*, *, *, *" RowDefinitions="300, 50" ColumnSpacing="10">
-                        <StackLayout Grid.Column="0" Background="Gray">
+
+                        <Grid  Grid.Column="0"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar1Color}">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectBarCommand}"
+                              CommandParameter="{Binding BarIndex1}"/>
+                            </Grid.GestureRecognizers>
+                            <StackLayout Grid.Row="0"
+                                 BackgroundColor="Transparent"
+                                 Padding="20">
+                            </StackLayout>
+                            <StackLayout Grid.Row="1"
+                                BackgroundColor="red"
+                                Margin="15,0">
+                            </StackLayout>
+
+                        </Grid>
+
+                        <Grid  Grid.Column="1"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar2Color}">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectBarCommand}"
+                                 CommandParameter="{Binding BarIndex2}"/>
+                            </Grid.GestureRecognizers>
+                                 <StackLayout Grid.Row="0"
+                                    BackgroundColor="Transparent"
+                                    Padding="20">
+                                  </StackLayout>
+                           
+                                  <StackLayout Grid.Row="1"
+                                       BackgroundColor="red"
+                                       Margin="15,0">
+                                  </StackLayout>
+
+                        </Grid>
+
+                        <Grid  Grid.Column="2"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar3Color}">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectBarCommand}"
+                                     CommandParameter="{Binding BarIndex3}"/>
+                            </Grid.GestureRecognizers>
                             
-                        </StackLayout>
-                     
-                        <StackLayout Grid.Column="1" BackgroundColor="Gray">
+                            <StackLayout Grid.Row="0"
+                                 BackgroundColor="Transparent"
+                                 Padding="20">
+                            </StackLayout>
 
-                        </StackLayout>
+                            <StackLayout Grid.Row="1"
+                                 BackgroundColor="red"
+                                 Margin="15,0">
+                            </StackLayout>
 
-                        <StackLayout Grid.Column="2" Background="Gray">
+                        </Grid>
+                        
+                        <Grid  Grid.Column="3"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar4Color}">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectBarCommand}"
+                                     CommandParameter="{Binding BarIndex4}"/>
+                            </Grid.GestureRecognizers>
 
-                        </StackLayout>
+                            <StackLayout Grid.Row="0"
+                                BackgroundColor="Transparent"
+                                Padding="20">
+                            </StackLayout>
 
-                        <StackLayout Grid.Column="3" Background="Gray">
+                            <StackLayout Grid.Row="1" Background="red"
+                                Margin="15,0">
+                            
+                            </StackLayout>
 
-                        </StackLayout>
-                        <Label Text="Oct 21" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center"/>
-                        <Label Text="Oct 22" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center"/>
-                        <Label Text="Oct 23" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center"/>
-                        <Label Text="Today" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        </Grid>
+              
+                        <Label Text="{Binding FirstBarLabel}" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding SecondBarLabel}" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding ThirdBarLabel}" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding FourthBarLabel}" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center"/>
                     </Grid>
                 </VerticalStackLayout>
-                <CollectionView Grid.Row="2">
-                    
+              
+                <CollectionView 
+                     Grid.Row="2" Grid.ColumnSpan="2"
+                     x:Name="MyCollectionView"
+                     ItemsSource="{Binding StoreOrders}"
+                     ItemsUpdatingScrollMode="KeepScrollOffset"
+                     ItemSizingStrategy="MeasureFirstItem">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="apiModels:GetOrderResponse">
+                            <Border StrokeShape="RoundRectangle 10"
+                     BackgroundColor="White"
+                     Padding="10">
+                                <!--<Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SalesPageViewModel}}, Path=OrderTapCommand}"
+                         CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>-->
+
+                                <Grid ColumnDefinitions="*,Auto"
+                       RowDefinitions="20, 20">
+                                    <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Id, StringFormat='ORDER ID: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding OrderDateTime, StringFormat='{0:t}'}" />
+                                    <Label Grid.Column="1" Text="{Binding TotalAmount}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
                 </CollectionView>
+
             </Grid>
         </ScrollView>
     </Grid>
