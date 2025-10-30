@@ -257,12 +257,10 @@ namespace MauiApp1.ViewModel
                         PopulateStoreOrders(DateTime.Now.AddDays(-3));
                         break;
                     case 2:
-                        TotalSales = 500;
                         PopulateStoreOrders(DateTime.Now.AddDays(-2));
                         break;
                     case 3:
                         PopulateStoreOrders(DateTime.Now.AddDays(-1));
-                        TotalSales = 1000;
                         break;
                     case 4:
                         PopulateStoreOrders(DateTime.Now);

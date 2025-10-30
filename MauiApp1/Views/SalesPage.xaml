@@ -19,11 +19,13 @@
                             CommandParameter="{Binding Button1}" />
                     <Button Grid.Column="1"  
                             Text="Weekly" 
+                            IsEnabled="False"
                             BackgroundColor="{Binding Button2Color}"
                             Command="{Binding SelectButtonCommand}"
                             CommandParameter="{Binding Button2}"/>
                     <Button Grid.Column="2" 
                             Text="Monthly" 
+                             IsEnabled="False"
                             BackgroundColor="{Binding Button3Color}"
                             Command="{Binding SelectButtonCommand}"
                             CommandParameter="{Binding Button3}"/>
