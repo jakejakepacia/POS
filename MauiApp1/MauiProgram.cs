@@ -5,6 +5,8 @@ using MauiApp1.ViewModel;
 using MauiApp1.Views;
 using Microsoft.Extensions.Logging;
 using MyApp.Services;
+using Microcharts.Maui; // ✅ Add this
+using Microsoft.Maui.Hosting;
 
 namespace MauiApp1;
 
@@ -15,6 +17,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .UseMicrocharts()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -53,6 +56,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<SalesPage>();
         builder.Services.AddSingleton<SalesPageViewModel>();
+
+        builder.Services.AddSingleton<ISalesService, SalesService>();
 
 
         builder.Services.AddSingleton<UserSession>();

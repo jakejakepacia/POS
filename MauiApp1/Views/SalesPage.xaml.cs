@@ -8,5 +8,5 @@ public partial class SalesPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = vm;
-	}
+    }
 }

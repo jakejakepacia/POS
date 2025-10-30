@@ -5,6 +5,8 @@
              xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
              xmlns:models="clr-namespace:MauiApp1.Model"
              xmlns:apiModels="clr-namespace:MauiApp1.Models.Api"
+            xmlns:local="clr-namespace:MauiApp1.Extensions"
+              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              Title="SalesPage">
     <Grid>
         <ScrollView>
@@ -26,11 +28,13 @@
                             Command="{Binding SelectButtonCommand}"
                             CommandParameter="{Binding Button3}"/>
                 </Grid>
+                <!--<microcharts:ChartView Chart="{Binding SalesChart}" Grid.Row="1"/>-->
                 <VerticalStackLayout Grid.Row="1" Spacing="20">
                     <Label Text="{Binding TotalSales, StringFormat='{0}PHP'}" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="35"/>
                     <Grid ColumnDefinitions="*, *, *, *" RowDefinitions="300, 50" ColumnSpacing="10">
 
-                        <Grid  Grid.Column="0"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar1Color}">
+                        <Grid local:GridExtension.RowHeights="{Binding FirstGridRowHeights}"  RowDefinitions="1*,0.0*" Grid.Column="0"  BackgroundColor="{Binding Bar1Color}">
+                            
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectBarCommand}"
                               CommandParameter="{Binding BarIndex1}"/>
@@ -46,7 +50,7 @@
 
                         </Grid>
 
-                        <Grid  Grid.Column="1"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar2Color}">
+                        <Grid local:GridExtension.RowHeights="{Binding SecondGridRowHeights}" RowDefinitions="1*,0.0*"  Grid.Column="1"  BackgroundColor="{Binding Bar2Color}">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectBarCommand}"
                                  CommandParameter="{Binding BarIndex2}"/>
@@ -63,7 +67,7 @@
 
                         </Grid>
 
-                        <Grid  Grid.Column="2"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar3Color}">
+                        <Grid   local:GridExtension.RowHeights="{Binding ThirdGridRowHeights}"  RowDefinitions="1*,0.0*"  Grid.Column="2"  BackgroundColor="{Binding Bar3Color}">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectBarCommand}"
                                      CommandParameter="{Binding BarIndex3}"/>
@@ -80,8 +84,8 @@
                             </StackLayout>
 
                         </Grid>
-                        
-                        <Grid  Grid.Column="3"  RowDefinitions="0.3*, 0.7*" BackgroundColor="{Binding Bar4Color}">
+
+                        <Grid  local:GridExtension.RowHeights="{Binding FourthGridRowHeights}" RowDefinitions="1*,0.0*" Grid.Column="3" BackgroundColor="{Binding Bar4Color}">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectBarCommand}"
                                      CommandParameter="{Binding BarIndex4}"/>

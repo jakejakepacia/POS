@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Interface;
 using MauiApp1.Models.Api;
+using Microcharts;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,6 +60,20 @@ namespace MauiApp1.ViewModel
         [ObservableProperty]
         private int selectedButtonIndex = 1;
 
+        [ObservableProperty]
+        public ObservableCollection<GridLength> firstGridRowHeights;
+
+        [ObservableProperty]
+        public ObservableCollection<GridLength> secondGridRowHeights;
+
+        [ObservableProperty]
+        public ObservableCollection<GridLength> thirdGridRowHeights;
+
+        [ObservableProperty]
+        public ObservableCollection<GridLength> fourthGridRowHeights;
+
+        public Chart SalesChart { get; set; }
+
         public string Button1Color => SelectedButtonIndex == 1 ? "CornflowerBlue" : "LightGray";
         public string Button2Color => SelectedButtonIndex == 2 ? "CornflowerBlue" : "LightGray";
         public string Button3Color => SelectedButtonIndex == 3 ? "CornflowerBlue" : "LightGray";
@@ -68,12 +84,17 @@ namespace MauiApp1.ViewModel
         public string Bar4Color => SelectedBarIndex == 4 ? "CornflowerBlue" : "LightGray";
 
         private readonly IOrderService _orderService;
+        private readonly ISalesService _salesService;
 
-        public SalesPageViewModel(IOrderService orderService)
+        public SalesPageViewModel(IOrderService orderService, ISalesService salesService)
         {
             _orderService = orderService;
+            _salesService = salesService;
 
             PopulateStoreOrders(DateTime.Now);
+
+       
+
             // When SelectedButtonIndex changes, update color properties
             PropertyChanged += (s, e) =>
             {
@@ -92,43 +113,133 @@ namespace MauiApp1.ViewModel
                     OnPropertyChanged(nameof(Bar4Color));
                 }
             };
+
+
         }
 
-
-        private void PopulateDailySalesDate()
+        private void CreateMicroChart()
         {
+            SalesChart = new BarChart
+            {
+                Entries = new[]
+           {
+                     new ChartEntry(100) { Label = "Bar 1", ValueLabel = "100", Color = SKColor.Parse("#266489") },
+                     new ChartEntry(200) { Label = "Bar 2", ValueLabel = "200", Color = SKColor.Parse("#68B9C0") },
+                     new ChartEntry(300) { Label = "Bar 3", ValueLabel = "300", Color = SKColor.Parse("#90D585") },
+                     new ChartEntry(400) { Label = "Bar 4", ValueLabel = "400", Color = SKColor.Parse("#F3C151") },
+                 }
+            };
+        }
+
+        private async Task PopulateDailySalesDate()
+        {
+       
             FirstBarLabel = DateTime.Today.AddDays(-3).ToString("MMM dd");
             SecondBarLabel = DateTime.Today.AddDays(-2).ToString("MMM dd");
             ThirdBarLabel = DateTime.Today.AddDays(-1).ToString("MMM dd");
             FourthBarLabel = "Today";
+
+            decimal firstBarSales = await _salesService.GetSalesByDate(DateTime.Today.AddDays(-3));
+            decimal secondBarSales = await _salesService.GetSalesByDate(DateTime.Today.AddDays(-2));
+            decimal thirdBarSales = await _salesService.GetSalesByDate(DateTime.Today.AddDays(-1));
+            decimal fourthBarSales = await _salesService.GetSalesByDate(DateTime.Today);
+
+            decimal totalSales = firstBarSales + secondBarSales + thirdBarSales + fourthBarSales;
+            double firstRatio = (double)(firstBarSales / totalSales);
+            double secondRatio = (double)(secondBarSales / totalSales);
+            double thirdRatio = (double)(thirdBarSales / totalSales);
+            double fourthRatio = (double)(fourthBarSales / totalSales);
+
+            //first bar value
+            FirstGridRowHeights = new ObservableCollection<GridLength>
+            {
+                new GridLength(1 - firstRatio, GridUnitType.Star),
+                new GridLength(firstRatio, GridUnitType.Star)
+            };
+
+            SecondGridRowHeights = new ObservableCollection<GridLength>
+            {
+                 new GridLength(1 - secondRatio, GridUnitType.Star),
+                new GridLength(secondRatio, GridUnitType.Star)
+            };
+
+            ThirdGridRowHeights = new ObservableCollection<GridLength>
+            {
+                 new GridLength(1 - thirdRatio, GridUnitType.Star),
+                new GridLength(thirdRatio, GridUnitType.Star)
+            };
+
+            FourthGridRowHeights = new ObservableCollection<GridLength>
+            {
+                 new GridLength(1 - fourthRatio, GridUnitType.Star),
+                new GridLength(fourthRatio, GridUnitType.Star)
+            };
+        }
+
+        private void ResetBarValues()
+        {
+            //first bar value
+            FirstGridRowHeights = new ObservableCollection<GridLength>
+            {
+                new GridLength(1, GridUnitType.Star),
+                new GridLength(0, GridUnitType.Star)
+            };
+
+            SecondGridRowHeights = new ObservableCollection<GridLength>
+            {
+                new GridLength(1, GridUnitType.Star),
+                new GridLength(0, GridUnitType.Star)
+            };
+
+            ThirdGridRowHeights = new ObservableCollection<GridLength>
+            {
+                  new GridLength(1, GridUnitType.Star),
+                new GridLength(0, GridUnitType.Star)
+            };
+
+            FourthGridRowHeights = new ObservableCollection<GridLength>
+            {
+                 new GridLength(1, GridUnitType.Star),
+                new GridLength(0, GridUnitType.Star)
+            };
         }
 
         private async void PopulateStoreOrders(DateTime dateTime)
         {
-           StoreOrders = await _orderService.GetStoreOrders(dateTime);
+
+            await PopulateDailySalesDate();
+
+            StoreOrders = await _orderService.GetStoreOrders(dateTime);
 
             TotalSales = StoreOrders.Sum(o => o.TotalAmount);
+
+
         }
 
 
         [RelayCommand]
-        private void SelectButton(int index)
+        private async void SelectButton(int index)
         {
             SelectedButtonIndex = index;
 
             switch (index)
             {
                 case 1:
-                    PopulateDailySalesDate();
+                    await PopulateDailySalesDate();
+                    PopulateStoreOrders(DateTime.Now);
+                    SelectedBarIndex = 4;
                     break;
                 case 2:
-                    TotalSales = 500;
+                    ResetBarValues();
+                    TotalSales = 0;
                     break;
                 case 3:
-                    TotalSales = 1000;
+                    ResetBarValues();
+                    TotalSales = 0;
                     break;
                 default:
-                     TotalSales = 100;
+                    ResetBarValues();
+                    TotalSales = 0;
                     break;
             }
         }
