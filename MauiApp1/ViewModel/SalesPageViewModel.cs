@@ -91,9 +91,10 @@ namespace MauiApp1.ViewModel
             _orderService = orderService;
             _salesService = salesService;
 
-            PopulateStoreOrders(DateTime.Now);
+            RefreshSalesBar();
 
-       
+
+            _orderService.NewOrderAdded += RefreshSalesBar;
 
             // When SelectedButtonIndex changes, update color properties
             PropertyChanged += (s, e) =>
@@ -131,9 +132,15 @@ namespace MauiApp1.ViewModel
             };
         }
 
-        private async Task PopulateDailySalesDate()
+        private void RefreshSalesBar()
         {
-       
+            SelectedBarIndex = 4;
+            PopulateSalesBarValues();
+            PopulateStoreOrders(DateTime.Now);
+        }
+
+        private async void PopulateSalesBarValues()
+        {
             FirstBarLabel = DateTime.Today.AddDays(-3).ToString("MMM dd");
             SecondBarLabel = DateTime.Today.AddDays(-2).ToString("MMM dd");
             ThirdBarLabel = DateTime.Today.AddDays(-1).ToString("MMM dd");
@@ -207,7 +214,7 @@ namespace MauiApp1.ViewModel
         private async void PopulateStoreOrders(DateTime dateTime)
         {
 
-            await PopulateDailySalesDate();
+             PopulateSalesBarValues();
 
             StoreOrders = await _orderService.GetStoreOrders(dateTime);
 
@@ -218,16 +225,14 @@ namespace MauiApp1.ViewModel
 
 
         [RelayCommand]
-        private async void SelectButton(int index)
+        private void SelectButton(int index)
         {
             SelectedButtonIndex = index;
 
             switch (index)
             {
                 case 1:
-                    await PopulateDailySalesDate();
-                    PopulateStoreOrders(DateTime.Now);
-                    SelectedBarIndex = 4;
+                    RefreshSalesBar();
                     break;
                 case 2:
                     ResetBarValues();
